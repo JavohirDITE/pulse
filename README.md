@@ -7,6 +7,8 @@
 A fast, keyboard-first task tracker for product teams — Kanban boards, real-time
 activity, a command palette, and an end-to-end type-safe stack.
 
+**🔗 [Live demo](https://pulse-three-kappa.vercel.app)** — sign in with `demo@pulse.app` / `password123`
+
 [Stack](#stack) · [Features](#features) · [Architecture](#architecture) · [Getting started](#getting-started)
 
 </div>
