@@ -1,0 +1,159 @@
+// Pulse — schema
+// PostgreSQL + Prisma. Run `npm run db:push` after `docker compose up -d`.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  BACKLOG
+  TODO
+  IN_PROGRESS
+  IN_REVIEW
+  DONE
+}
+
+enum Priority {
+  NONE
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model User {
+  id           String          @id @default(cuid())
+  email        String          @unique
+  name         String
+  passwordHash String
+  avatarColor  String          @default("#6366f1")
+  createdAt    DateTime        @default(now())
+
+  memberships  ProjectMember[]
+  ownedProjects Project[]      @relation("ProjectOwner")
+  assignedTasks Task[]         @relation("TaskAssignee")
+  createdTasks  Task[]         @relation("TaskCreator")
+  comments      Comment[]
+  activities    Activity[]
+}
+
+model Project {
+  id          String          @id @default(cuid())
+  name        String
+  key         String          // short prefix, e.g. PUL
+  description String?
+  color       String          @default("#6366f1")
+  ownerId     String
+  owner       User            @relation("ProjectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  members     ProjectMember[]
+  tasks       Task[]
+  labels      Label[]
+  activities  Activity[]
+
+  @@index([ownerId])
+}
+
+model ProjectMember {
+  id        String   @id @default(cuid())
+  role      Role     @default(MEMBER)
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([projectId, userId])
+  @@index([userId])
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  number      Int        // per-project sequential number, e.g. PUL-42
+  title       String
+  description String?
+  status      Status     @default(BACKLOG)
+  priority    Priority   @default(NONE)
+  // fractional ordering inside a column for cheap reorders
+  order       Float      @default(1000)
+  dueDate     DateTime?
+
+  projectId   String
+  project     Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assigneeId  String?
+  assignee    User?      @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  creatorId   String
+  creator     User       @relation("TaskCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+
+  labels      LabelOnTask[]
+  comments    Comment[]
+  activities  Activity[]
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([projectId, number])
+  @@index([projectId, status])
+  @@index([assigneeId])
+}
+
+model Label {
+  id        String        @id @default(cuid())
+  name      String
+  color     String        @default("#64748b")
+  projectId String
+  project   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks     LabelOnTask[]
+
+  @@unique([projectId, name])
+}
+
+model LabelOnTask {
+  taskId  String
+  task    Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  labelId String
+  label   Label  @relation(fields: [labelId], references: [id], onDelete: Cascade)
+
+  @@id([taskId, labelId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  body      String
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([taskId])
+}
+
+// Lightweight audit/activity feed — powers the realtime stream
+model Activity {
+  id        String   @id @default(cuid())
+  type      String   // created | moved | assigned | commented | renamed ...
+  meta      Json
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskId    String?
+  task      Task?    @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  actorId   String
+  actor     User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([projectId, createdAt])
+}

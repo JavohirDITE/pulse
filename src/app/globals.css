@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   Pulse design tokens — a calm, high-contrast dark workspace.
+---------------------------------------------------------------------------- */
+@theme {
+  --color-bg: #0a0a0f;
+  --color-surface: #101017;
+  --color-surface-2: #16161d;
+  --color-elevated: #1c1c25;
+  --color-border: #26262f;
+  --color-border-soft: #1e1e26;
+
+  --color-text: #ececf1;
+  --color-muted: #9b9ba6;
+  --color-faint: #6b6b78;
+
+  --color-brand: #6366f1;
+  --color-brand-bright: #818cf8;
+  --color-brand-soft: #312e81;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-card: 0.875rem;
+
+  --animate-fade-in: fade-in 0.4s ease forwards;
+  --animate-rise: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ambient gradient backdrop */
+.aurora {
+  background:
+    radial-gradient(60rem 60rem at 70% -10%, rgba(99, 102, 241, 0.16), transparent 60%),
+    radial-gradient(50rem 50rem at 10% 10%, rgba(56, 189, 248, 0.1), transparent 55%),
+    radial-gradient(40rem 40rem at 50% 120%, rgba(168, 85, 247, 0.12), transparent 60%);
+}
+
+.glass {
+  background: color-mix(in oklab, var(--color-surface) 80%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 25%,
+    var(--color-elevated) 50%,
+    var(--color-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+/* Thin custom scrollbars */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-faint);
+  background-clip: padding-box;
+}
+
+::selection {
+  background: var(--color-brand-soft);
+  color: #fff;
+}
