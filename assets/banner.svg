@@ -1,0 +1,57 @@
+<svg width="1280" height="340" viewBox="0 0 1280 340" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="340" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0a0a0f"/>
+      <stop offset="1" stop-color="#12121b"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(980 40) rotate(130) scale(420)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366f1" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="title" x1="64" y1="0" x2="560" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a5b4fc"/>
+      <stop offset="0.5" stop-color="#818cf8"/>
+      <stop offset="1" stop-color="#e879f9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="340" rx="20" fill="url(#bg)"/>
+  <rect width="1280" height="340" rx="20" fill="url(#glow)"/>
+  <rect x="0.5" y="0.5" width="1279" height="339" rx="20" stroke="#26262f"/>
+
+  <g transform="translate(64 78)">
+    <rect width="44" height="44" rx="11" fill="#6366f1"/>
+    <path d="M24 11 L15 26 H23 L20 36 L31 20 H23 Z" fill="#fff"/>
+    <text x="60" y="34" font-size="40" font-weight="700" fill="#ececf1">Pulse</text>
+  </g>
+
+  <text x="64" y="176" font-size="34" font-weight="600" fill="url(#title)">Issue tracking that keeps up with you</text>
+  <text x="64" y="214" font-size="18" fill="#9b9ba6">Keyboard-first Kanban · real-time collaboration · command palette · ⌘K</text>
+
+  <g transform="translate(64 250)" font-size="14" fill="#c7c7d1">
+    <g><rect width="118" height="30" rx="8" fill="#16161d" stroke="#26262f"/><text x="59" y="20" text-anchor="middle">Next.js 16</text></g>
+    <g transform="translate(130 0)"><rect width="80" height="30" rx="8" fill="#16161d" stroke="#26262f"/><text x="40" y="20" text-anchor="middle">tRPC</text></g>
+    <g transform="translate(222 0)"><rect width="92" height="30" rx="8" fill="#16161d" stroke="#26262f"/><text x="46" y="20" text-anchor="middle">Prisma</text></g>
+    <g transform="translate(326 0)"><rect width="118" height="30" rx="8" fill="#16161d" stroke="#26262f"/><text x="59" y="20" text-anchor="middle">PostgreSQL</text></g>
+    <g transform="translate(456 0)"><rect width="96" height="30" rx="8" fill="#16161d" stroke="#26262f"/><text x="48" y="20" text-anchor="middle">Tailwind</text></g>
+    <g transform="translate(564 0)"><rect width="138" height="30" rx="8" fill="#16161d" stroke="#26262f"/><text x="69" y="20" text-anchor="middle">Framer Motion</text></g>
+  </g>
+
+  <g transform="translate(900 70)">
+    <g>
+      <rect width="100" height="200" rx="10" fill="#101017" stroke="#26262f"/>
+      <circle cx="16" cy="20" r="5" fill="#a78bfa"/><text x="30" y="24" font-size="11" fill="#9b9ba6">Todo</text>
+      <rect x="12" y="36" width="76" height="40" rx="7" fill="#16161d" stroke="#26262f"/>
+      <rect x="12" y="84" width="76" height="40" rx="7" fill="#16161d" stroke="#26262f"/>
+    </g>
+    <g transform="translate(116 0)">
+      <rect width="100" height="200" rx="10" fill="#101017" stroke="#26262f"/>
+      <circle cx="16" cy="20" r="5" fill="#fbbf24"/><text x="30" y="24" font-size="11" fill="#9b9ba6">Doing</text>
+      <rect x="12" y="36" width="76" height="40" rx="7" fill="#1c1c25" stroke="#6366f1"/>
+    </g>
+    <g transform="translate(232 0)">
+      <rect width="100" height="200" rx="10" fill="#101017" stroke="#26262f"/>
+      <circle cx="16" cy="20" r="5" fill="#34d399"/><text x="30" y="24" font-size="11" fill="#9b9ba6">Done</text>
+      <rect x="12" y="36" width="76" height="40" rx="7" fill="#16161d" stroke="#26262f"/>
+    </g>
+  </g>
+</svg>

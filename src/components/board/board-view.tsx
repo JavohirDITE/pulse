@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Activity, Search, UserPlus } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { useProjectEvents } from "@/hooks/use-project-events";
 import { AvatarStack } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Board } from "./board";
@@ -12,6 +13,7 @@ import { InviteModal } from "./invite-modal";
 
 export function BoardView({ projectId }: { projectId: string }) {
   const { data: project, isLoading } = trpc.project.byId.useQuery({ projectId });
+  const { connected } = useProjectEvents(projectId);
   const [openTask, setOpenTask] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [feedOpen, setFeedOpen] = useState(false);
@@ -57,6 +59,19 @@ export function BoardView({ projectId }: { projectId: string }) {
         </div>
 
         <div className="ml-auto flex items-center gap-3">
+          <span
+            className="flex items-center gap-1.5 text-xs text-faint"
+            title={connected ? "Live updates connected" : "Reconnecting…"}
+          >
+            <span
+              className={`h-2 w-2 rounded-full ${
+                connected
+                  ? "bg-emerald-400 shadow-[0_0_8px] shadow-emerald-400/60"
+                  : "bg-faint"
+              }`}
+            />
+            {connected ? "Live" : "Offline"}
+          </span>
           <AvatarStack users={project.members.map((m) => m.user)} />
           <Button
             variant="secondary"

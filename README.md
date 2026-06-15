@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="./assets/banner.svg" alt="Pulse" width="100%" />
+
 # ⚡ Pulse
 
 **Issue tracking that keeps up with you.**
@@ -37,8 +39,9 @@ activity, a command palette, and an end-to-end type-safe stack.
 - **Optimistic UI** — cards move the instant you drop them; the network catches
   up, and rolls back on error.
 - **Command palette** (`⌘K` / `Ctrl+K`) to jump between projects and run actions.
-- **Real-time activity feed** — every create / move / assign / comment is logged
-  and streamed into a live timeline.
+- **Real-time activity feed** — a Postgres `NOTIFY` trigger fires on every change
+  and is pushed to clients over Server-Sent Events (SSE), so boards sync live
+  across users with no polling. A "Live" indicator shows the connection state.
 - **Role-based access control** — `OWNER` / `ADMIN` / `MEMBER`, enforced on the
   server for every project and task operation.
 - **Auth from scratch** — registration, login, hashed passwords, signed JWT
@@ -91,6 +94,7 @@ docker compose up -d
 cp .env.example .env          # adjust AUTH_SECRET
 npm run db:push
 npm run db:seed
+npm run db:realtime        # installs the realtime NOTIFY trigger
 
 # 4. run
 npm run dev
@@ -111,6 +115,7 @@ password: password123
 | `npm run build`    | `prisma generate` + production build |
 | `npm run db:push`  | Sync Prisma schema to the database   |
 | `npm run db:seed`  | Seed demo users, project, and tasks  |
+| `npm run db:realtime`| Install the Postgres NOTIFY trigger |
 | `npm run db:studio`| Open Prisma Studio                   |
 | `npm run lint`     | ESLint                               |
 

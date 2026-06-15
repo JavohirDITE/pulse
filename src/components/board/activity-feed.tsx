@@ -25,7 +25,7 @@ export function ActivityFeed({
 }) {
   const { data, isLoading } = trpc.activity.feed.useQuery(
     { projectId, limit: 30 },
-    { enabled: open, refetchInterval: open ? 5000 : false },
+    { enabled: open },
   );
 
   return (
